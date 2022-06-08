@@ -1,0 +1,31 @@
+# 主要就是实现一个大循环，最终读取完数据存储器的像素信息，LED显示出来        
+        addiu   $1, $zero, 0
+        addiu   $31, 10000, 0
+begin:
+        lw      $2, $1
+        addiu   $1, $1, 4
+        lw      $2, $1
+        nop
+        addiu   $4, $2, -1
+        sw      $4, $3
+        sltu    $2, $0, $2
+        andi    $2, $2, 0x00ff
+        beq     $2, $0, $L2
+        nop
+        lw      $2, $1
+        nop
+        addi    $3, $2, 1
+        sw      $3, $2
+        sub     $31, $31, 1
+L1:  
+        sll     $3, $3, 2
+        addu    $2, $3, $2
+        lw      $3, 0($2)
+        nop
+        sll     $3, $3, 2
+        addu    $2, $3, $2
+        lw      $2, 0($2)
+        nop
+        jal     L1
+        nop
+        beq     $1, 10000, begin
